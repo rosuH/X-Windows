@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# X-Windows
 
-## Getting Started
+X-Windows 是一个借鉴 X iOS 客户端“帖子下沉 + Web 内嵌”交互的开源实验，让访问者在帖子界面里打开迷你 IDE 或惊喜主题，实现“打开源码编辑器”的错位体验。
 
-First, run the development server:
+## 快速开始
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 `http://localhost:3000` 即可体验。通过 `?theme=swiftui` 等参数可直接指定主题。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 主要特性
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- SwiftUI / Compose 代码主题：主页采用仿窗口展示，独立路由则呈现真实的编辑器布局。
+- Meme 等多媒体主题：支持趣味图片、动画等惊喜内容。
+- 平台识别：根据 UA 推荐默认主题，独立路由强制展示移动端视觉。
+- 快速分享：独立路由底部提供主题切换、分享按钮和 GitHub 链接。
 
-## Learn More
+## 路由说明
 
-To learn more about Next.js, take a look at the following resources:
+- `/`：帖子壳 + 主题列表，可在页面顶部切换主题。
+- `/theme/[id]`：仅呈现主题内容，适合嵌入 X 帖子或分享。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 贡献
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+欢迎 Fork 仓库（https://github.com/rosuH/X-Windows）并提交主题或改进体验的 PR！
