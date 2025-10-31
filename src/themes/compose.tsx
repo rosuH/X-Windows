@@ -143,7 +143,7 @@ function ComposeThemeComponent(props: ThemeComponentProps) {
     return <ComposeStandalone />;
   }
 
-  return <ComposeEmbedded />;
+  return <ComposeEmbedded platform={props.platform} />;
 }
 
 export const composeTheme: ThemeDefinition = {

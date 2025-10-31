@@ -143,7 +143,7 @@ function SwiftUIThemeComponent(props: ThemeComponentProps) {
     return <SwiftUIStandalone />;
   }
 
-  return <SwiftUIEmbedded />;
+  return <SwiftUIEmbedded platform={props.platform} />;
 }
 
 export const swiftuiTheme: ThemeDefinition = {
