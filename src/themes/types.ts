@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import type { LucideIcon } from "lucide-react";
 import type { Platform } from "@/lib/device";
 
@@ -9,7 +10,7 @@ export interface ThemeComponentProps {
   mode?: ThemeComponentMode;
 }
 
-export type ThemeRenderer = (props: ThemeComponentProps) => JSX.Element;
+export type ThemeRenderer = (props: ThemeComponentProps) => ReactElement;
 
 export interface ThemeDefinition {
   id: string;
