@@ -24,10 +24,10 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
 
   const effectivePlatform = useMemo<Platform>(() => {
     const supported = theme.supportedPlatforms ?? [];
-    const mobileCandidates = supported.filter((p) => p === "ios" || p === "android");
+    const mobileCandidates = supported.filter((p): p is "ios" | "android" => p === "ios" || p === "android");
 
     if (mobileCandidates.length > 0) {
-      if (mobileCandidates.includes(platformHint) && (platformHint === "ios" || platformHint === "android")) {
+      if ((platformHint === "ios" || platformHint === "android") && mobileCandidates.includes(platformHint)) {
         return platformHint;
       }
       return mobileCandidates[0];
