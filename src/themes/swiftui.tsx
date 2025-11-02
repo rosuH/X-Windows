@@ -111,14 +111,16 @@ function SwiftUIEmbedded({}: ThemeComponentProps) {
   const debugLine = 11;
 
   return (
-    <div className="flex h-full flex-col overflow-hidden border border-white/10 bg-[#111114] shadow-[0_30px_80px_rgba(5,10,25,0.45)]">
-      <CodeBlock 
-        code={SWIFTUI_CODE} 
-        language="swift" 
-        variant="frameless"
-        highlightLine={debugLine}
-        scrollToLine={debugLine}
-      />
+    <div className="flex h-full w-full min-w-0 flex-col overflow-hidden border border-white/10 bg-[#111114] shadow-[0_30px_80px_rgba(5,10,25,0.45)]">
+      <div className="flex h-full w-full min-w-0 flex-1 flex-col overflow-hidden">
+        <CodeBlock 
+          code={SWIFTUI_CODE} 
+          language="swift" 
+          variant="frameless"
+          highlightLine={debugLine}
+          scrollToLine={debugLine}
+        />
+      </div>
     </div>
   );
 }

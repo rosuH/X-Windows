@@ -240,6 +240,54 @@ export function CodeBlock({
   return (
     <>
       <style>{`
+        .xs-code-block-container {
+          width: 100%;
+          max-width: 100%;
+          min-width: 0;
+          overflow-x: auto;
+          overflow-y: visible;
+        }
+
+        .xs-code-block-container pre {
+          width: 100%;
+          max-width: 100%;
+          min-width: 0;
+          margin: 0;
+          overflow-x: auto;
+          overflow-y: visible;
+        }
+
+        .xs-code-block-container code {
+          width: 100%;
+          max-width: 100%;
+          min-width: 0;
+          display: block;
+          overflow-x: auto;
+        }
+
+        .xs-code-block-container code > span {
+          display: block;
+        }
+
+        .xs-code-block-container code > span[class*="react-syntax-highlighter-line"] {
+          display: flex;
+          width: 100%;
+          min-width: 0;
+        }
+
+        .xs-code-block-container code > span[class*="react-syntax-highlighter-line-content"] {
+          flex: 1;
+          min-width: 0;
+        }
+
+        @media (max-width: 640px) {
+          .xs-code-block-container code > span[class*="react-syntax-highlighter-line-content"] {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+          }
+        }
+
         .xs-debug-line {
           position: relative;
           display: block !important;
@@ -309,7 +357,7 @@ export function CodeBlock({
           z-index: 2;
         }
       `}</style>
-      <div className="relative" ref={containerRef}>
+      <div className="relative xs-code-block-container" ref={containerRef}>
       <SyntaxHighlighter
         language={resolvedLanguage}
         style={oneDark}

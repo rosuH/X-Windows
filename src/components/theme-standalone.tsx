@@ -121,6 +121,10 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
     [currentIndex, router],
   );
 
+  const handleHome = useCallback(() => {
+    router.push("/");
+  }, [router]);
+
   const handleOverlayResolve = useCallback(() => {
     setOverlayMode("hidden");
   }, []);
@@ -157,6 +161,7 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
         onPrev={() => navigateTheme(-1)}
         onNext={() => navigateTheme(1)}
         onShare={handleShare}
+        onHome={handleHome}
         githubUrl="https://github.com/rosuH/X-Windows"
         themeIcon={ThemeIcon}
         themeInitial={themeInitial}

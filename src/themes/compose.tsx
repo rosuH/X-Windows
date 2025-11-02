@@ -109,15 +109,17 @@ function ComposeEmbedded({}: ThemeComponentProps) {
   const debugLine = 33;
 
   return (
-    <div className="flex h-full flex-col overflow-hidden border border-white/10 bg-[#0D1513] shadow-[0_30px_80px_rgba(3,15,12,0.45)]">
-      <CodeBlock 
-        code={COMPOSE_CODE} 
-        language="kotlin" 
-        variant="frameless"
-        highlightLine={debugLine}
-        scrollToLine={debugLine}
-        debugStyle="android"
-      />
+    <div className="flex h-full w-full min-w-0 flex-col overflow-hidden border border-white/10 bg-[#0D1513] shadow-[0_30px_80px_rgba(3,15,12,0.45)]">
+      <div className="flex h-full w-full min-w-0 flex-1 flex-col overflow-hidden">
+        <CodeBlock 
+          code={COMPOSE_CODE} 
+          language="kotlin" 
+          variant="frameless"
+          highlightLine={debugLine}
+          scrollToLine={debugLine}
+          debugStyle="android"
+        />
+      </div>
     </div>
   );
 }

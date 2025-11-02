@@ -45,14 +45,14 @@ export function ThemeExperience({ initialThemeId, platform }: ThemeExperiencePro
         />
       }
     >
-      <div className="flex min-h-[320px] flex-col gap-4">
-        <div className="rounded-2xl border border-white/10 bg-slate-950/40 px-5 py-4 text-sm text-slate-300">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex min-h-[280px] flex-col gap-3 sm:min-h-[320px] sm:gap-4">
+        <div className="rounded-xl border border-white/10 bg-slate-950/40 px-3 py-3 text-xs text-slate-300 sm:rounded-2xl sm:px-5 sm:py-4 sm:text-sm">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
             <div className="flex flex-col gap-1">
               <span className="font-medium text-slate-100">{theme.label}</span>
-              <span>{theme.description}</span>
+              <span className="text-xs sm:text-sm">{theme.description}</span>
             </div>
-            <div className="flex flex-col items-end gap-2 text-xs text-slate-400">
+            <div className="flex flex-col gap-1.5 text-[10px] text-slate-400 sm:items-end sm:gap-2 sm:text-xs">
               <span>
                 Current device: <strong className="text-slate-100">{platformLabel(platform)}</strong>
               </span>
@@ -61,16 +61,17 @@ export function ThemeExperience({ initialThemeId, platform }: ThemeExperiencePro
               </span>
             </div>
           </div>
-          <div className="mt-3 text-xs text-slate-400">
+          <div className="mt-3 text-[10px] text-slate-400 sm:text-xs">
             <Link
               href={`/theme/${theme.id}`}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/10"
+              className="inline-flex rounded-full border border-white/10 bg-white/5 px-2.5 py-1 font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/10 sm:px-3"
             >
-              Open standalone route /theme/{theme.id}
+              <span className="hidden sm:inline">Open standalone route /theme/{theme.id}</span>
+              <span className="sm:hidden">Standalone /theme/{theme.id}</span>
             </Link>
           </div>
         </div>
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
           <ThemeComponent platform={platform} mode="embedded" />
         </div>
       </div>

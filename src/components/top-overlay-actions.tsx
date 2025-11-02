@@ -9,6 +9,7 @@ interface TopOverlayActionsProps {
   onPrev: () => void;
   onNext: () => void;
   onShare: () => void;
+  onHome?: () => void;
   githubUrl: string;
   label?: string;
   themeIcon?: LucideIcon | IconComponent;
@@ -21,6 +22,7 @@ export function TopOverlayActions({
   onPrev,
   onNext,
   onShare,
+  onHome,
   githubUrl,
   label,
   themeIcon: ThemeIcon,
@@ -43,6 +45,17 @@ export function TopOverlayActions({
         right: "max(12px, env(safe-area-inset-right, 0px))",
       }}
     >
+      {onHome && (
+        <button
+          type="button"
+          onClick={onHome}
+          className="flex h-[clamp(36px,4.5vw,40px)] w-[clamp(36px,4.5vw,40px)] items-center justify-center rounded-full border border-white/10 bg-white/10 text-slate-100 transition hover:border-white/20 hover:bg-white/20"
+          aria-label="Go to homepage"
+          title="Go to homepage"
+        >
+          <HomeIcon />
+        </button>
+      )}
       <button
         type="button"
         onClick={onPrev}
@@ -161,6 +174,20 @@ function GitHubIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 0.5C5.648 0.5 0.5 5.648 0.5 12C0.5 17.303 4.035 21.794 8.839 23.25C9.439 23.358 9.667 22.99 9.667 22.676C9.667 22.397 9.656 21.631 9.651 20.676C6.297 21.402 5.593 19.095 5.593 19.095C5.047 17.739 4.259 17.373 4.259 17.373C3.171 16.632 4.342 16.646 4.342 16.646C5.547 16.731 6.172 17.889 6.172 17.889C7.247 19.735 8.985 19.206 9.646 18.908C9.754 18.134 10.06 17.606 10.4 17.314C7.57 17.019 4.594 15.98 4.594 11.385C4.594 10.079 5.062 9.019 5.83 8.197C5.709 7.902 5.3 6.665 5.94 5.053C5.94 5.053 6.939 4.741 9.64 6.49C10.576 6.232 11.576 6.103 12.576 6.098C13.576 6.103 14.576 6.232 15.512 6.49C18.213 4.741 19.212 5.053 19.212 5.053C19.852 6.665 19.443 7.902 19.322 8.197C20.09 9.019 20.558 10.079 20.558 11.385C20.558 15.994 17.576 17.016 14.736 17.306C15.16 17.674 15.542 18.423 15.542 19.563C15.542 21.145 15.526 22.303 15.526 22.676C15.526 22.991 15.75 23.363 16.359 23.249C21.166 21.791 24.699 17.303 24.699 12C24.699 5.648 19.551 0.5 13.199 0.5H12Z" />
+    </svg>
+  );
+}
+
+function HomeIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M3 9L9 3L15 9M3 15H7.5V10.5H10.5V15H15V9L9 3L3 9V15Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
