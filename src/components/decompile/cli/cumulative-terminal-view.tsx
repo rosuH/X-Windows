@@ -117,8 +117,8 @@ export function CumulativeTerminalView({
   const highlightLine = activeMapEntry?.to ?? null;
 
   return (
-    <div className="flex h-full w-full flex-col">
-      <div ref={scrollRef} className="flex flex-col gap-6 pb-8">
+    <div className="flex h-full w-full min-h-full flex-col">
+      <div ref={scrollRef} className="flex min-h-full flex-col gap-6 pb-8">
         {/* Completed stages */}
         {completedStages.map((item, stageIndex) => (
           <div key={`completed-${stageIndex}`} className="flex flex-col gap-4">

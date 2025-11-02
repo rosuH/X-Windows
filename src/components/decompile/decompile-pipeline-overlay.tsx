@@ -253,7 +253,7 @@ export function DecompilePipelineOverlay({
         isExiting ? "opacity-0 scale-95" : "opacity-100 scale-100"
       )}
       style={{
-        background: "radial-gradient(circle at top, rgba(7,17,45,0.95), rgba(2,6,23,0.98))",
+        background: "radial-gradient(circle at top, rgba(7,17,45,0.98), rgba(2,6,23,0.99))",
         transitionDuration: prefersReducedMotion ? "150ms" : exitCommandPrinted ? "400ms" : "350ms",
         transitionTimingFunction: exitCommandPrinted ? "cubic-bezier(0.4, 0.0, 0.2, 1)" : "ease-out",
         transformOrigin: "center center",
@@ -265,7 +265,7 @@ export function DecompilePipelineOverlay({
       tabIndex={-1}
       ref={containerRef}
     >
-      <CliFrame reducedMotion={prefersReducedMotion} className="flex-1">
+      <CliFrame reducedMotion={prefersReducedMotion} className="flex-1 min-h-full">
         <CumulativeTerminalView
           completedStages={completedStages}
           currentStage={

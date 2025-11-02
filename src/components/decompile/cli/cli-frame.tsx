@@ -77,7 +77,7 @@ export function CliFrame({
         />
       )}
       <div
-        className="relative h-full w-full overflow-y-auto px-8 py-10"
+        className="relative h-full w-full min-h-full overflow-y-auto px-8 py-10"
         style={{
           boxShadow: "0 0 55px rgba(0, 255, 170, 0.06)",
         }}
