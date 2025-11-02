@@ -3,7 +3,14 @@
 import Script from "next/script";
 import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import { track } from "@/lib/analytics";
+
+// Dynamically import Vercel Analytics with no SSR and lazy loading
+const VercelAnalytics = dynamic(
+  () => import("@vercel/analytics/react").then((mod) => mod.Analytics),
+  { ssr: false }
+);
 
 export function Analytics() {
   const pathname = usePathname();
@@ -19,22 +26,18 @@ export function Analytics() {
     }
   }, [pathname, searchParams?.toString()]);
 
-  if (!websiteId) {
-    if (process.env.NODE_ENV === "development") {
-      console.warn(
-        "[Analytics] NEXT_PUBLIC_UMAMI_WEBSITE_ID is not set. Analytics will be disabled.",
-      );
-    }
-    return null;
-  }
-
   return (
-    <Script
-      src={src}
-      data-website-id={websiteId}
-      strategy="lazyOnload"
-      defer
-    />
+    <>
+      {websiteId && (
+        <Script
+          src={src}
+          data-website-id={websiteId}
+          strategy="lazyOnload"
+          defer
+        />
+      )}
+      <VercelAnalytics />
+    </>
   );
 }
 

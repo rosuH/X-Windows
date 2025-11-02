@@ -171,7 +171,7 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
   if (isLoading || !themeDefinition) {
     return (
       <div className="relative flex min-h-screen w-full items-center justify-center bg-slate-950 text-slate-100">
-        <div className="text-slate-400">Loading theme...</div>
+        <div className="font-mono text-emerald-300">loading</div>
       </div>
     );
   }

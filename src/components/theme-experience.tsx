@@ -72,7 +72,7 @@ export function ThemeExperience({ initialThemeId, platform }: ThemeExperiencePro
       >
         <div className="flex min-h-[280px] flex-col gap-3 sm:min-h-[320px] sm:gap-4">
           <div className="rounded-xl border border-white/10 bg-slate-950/40 px-3 py-3 text-xs text-slate-300 sm:rounded-2xl sm:px-5 sm:py-4 sm:text-sm">
-            <div className="text-slate-400">Loading theme...</div>
+            <div className="font-mono text-emerald-300">loading</div>
           </div>
         </div>
       </PostShell>
