@@ -48,3 +48,242 @@ body {
   background: rgba(96, 165, 250, 0.35);
   color: var(--foreground);
 }
+
+/* Code block container styles */
+.xs-code-block-container {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  /* Ensure stable dimensions to prevent CLS */
+  min-height: 200px;
+  contain: layout;
+}
+
+.xs-code-block-container pre {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  /* Stable line height */
+  line-height: 1.65;
+}
+
+.xs-code-block-container code {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: block;
+  overflow-x: auto;
+  /* Stable font size */
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+.xs-code-block-container code > span {
+  display: block;
+}
+
+/* Shiki code block styles */
+.xs-shiki-pre {
+  background: transparent !important;
+  margin: 0;
+  padding: 0;
+  /* Stable dimensions */
+  line-height: 1.65;
+  font-size: 0.85rem;
+}
+
+.xs-shiki-pre .code-line {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  /* Stable line height */
+  line-height: 1.65;
+  min-height: calc(0.85rem * 1.65);
+}
+
+.xs-shiki-pre .code-line-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.xs-shiki-pre .code-line-number {
+  color: rgba(148, 163, 184, 0.45);
+  margin-right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  position: relative;
+  text-align: right;
+  z-index: 1;
+  user-select: none;
+}
+
+@media (max-width: 640px) {
+  .xs-shiki-pre .code-line-content {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+  }
+}
+
+/* Debug line styles */
+.xs-shiki-pre .code-line-highlighted {
+  position: relative;
+  display: block !important;
+  width: 100%;
+  overflow: visible;
+}
+
+.xs-shiki-pre .code-line-highlighted::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.35rem;
+  z-index: 0;
+}
+
+.xs-shiki-pre .code-line-highlighted .code-line-number,
+.xs-shiki-pre .code-line-highlighted .code-line-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Swift debug style */
+.xs-shiki-pre[data-debug-style="swift"] .code-line-highlighted::after {
+  background-color: rgba(92, 184, 92, 0.25);
+}
+
+.xs-shiki-pre[data-debug-style="swift"] .code-line-highlighted .code-line-number {
+  color: #ffffff !important;
+  z-index: 15;
+}
+
+.xs-shiki-pre[data-debug-style="swift"] .code-line-highlighted .code-line-number::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -0.5rem;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 1.55rem;
+  background: #007AFF;
+  border-radius: 0.45rem;
+  z-index: 2;
+}
+
+/* Android debug style */
+.xs-shiki-pre[data-debug-style="android"] .code-line-highlighted::after {
+  background-color: rgba(0, 122, 255, 0.35);
+}
+
+.xs-shiki-pre[data-debug-style="android"] .code-line-highlighted .code-line-number {
+  color: transparent !important;
+  z-index: 15;
+}
+
+.xs-shiki-pre[data-debug-style="android"] .code-line-highlighted .code-line-number::before {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #DC3545;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+/* Legacy support for old react-syntax-highlighter classes */
+.xs-code-block-container code > span[class*="react-syntax-highlighter-line"] {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+}
+
+.xs-code-block-container code > span[class*="react-syntax-highlighter-line-content"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.xs-debug-line {
+  position: relative;
+  display: block !important;
+  width: 100%;
+  overflow: visible;
+}
+
+.xs-debug-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.35rem;
+  z-index: 0;
+}
+
+.xs-debug-line span[class*="react-syntax-highlighter-line-number"],
+.xs-debug-line span[class*="react-syntax-highlighter-line-content"] {
+  position: relative;
+  z-index: 1;
+}
+
+.xs-debug-line--swift::after {
+  background-color: rgba(92, 184, 92, 0.25);
+}
+
+.xs-debug-line--swift [class*="react-syntax-highlighter-line-number"] {
+  color: #ffffff !important;
+}
+
+.xs-debug-line--swift [class*="react-syntax-highlighter-line-number"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -0.5rem;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 1.55rem;
+  background: #007AFF;
+  border-radius: 0.45rem;
+  z-index: 2;
+}
+
+.xs-debug-line--android::after {
+  background-color: rgba(0, 122, 255, 0.35);
+}
+
+.xs-debug-line--android [class*="react-syntax-highlighter-line-number"] {
+  color: transparent !important;
+}
+
+.xs-debug-line--android [class*="react-syntax-highlighter-line-number"]::before {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #DC3545;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}

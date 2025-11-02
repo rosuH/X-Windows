@@ -1,9 +1,21 @@
+"use client";
+
 import Image from "next/image";
+import { useMemo } from "react";
 import type { ThemeDefinition } from "@/themes/types";
 import type { ThemeComponentProps } from "@/themes/types";
 import { Sparkles } from "lucide-react";
 
 function MemeTheme({}: ThemeComponentProps) {
+  // Check if meme theme is active by checking URL or window location
+  const isActive = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    const url = new URL(window.location.href);
+    const themeParam = url.searchParams.get("theme");
+    const pathname = window.location.pathname;
+    return themeParam === "meme" || pathname.includes("/theme/meme");
+  }, []);
+
   return (
     <div className="relative flex h-full min-h-[320px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black">
       <Image
@@ -11,7 +23,7 @@ function MemeTheme({}: ThemeComponentProps) {
         alt="Meme tom"
         fill
         className="object-contain"
-        priority
+        priority={isActive}
       />
     </div>
   );

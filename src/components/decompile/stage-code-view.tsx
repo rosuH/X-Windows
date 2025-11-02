@@ -7,7 +7,7 @@ import type {
   SourceStage,
   IrStage,
 } from "../../datasets/types";
-import { CodeBlock } from "../code-block";
+import { CodeBlock } from "../code-block-new";
 
 type Stage = SourceStage | IrStage | BinaryStage;
 

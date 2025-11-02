@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Suspense } from "react";
-import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
+import dynamic from "next/dynamic";
 import { Analytics } from "@/components/analytics";
 import {
   generateOrganizationJsonLd,
@@ -10,6 +10,12 @@ import {
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://x-windows.rosuh.me";
+
+// Dynamically import Vercel Analytics with no SSR and lazy loading
+const VercelAnalytics = dynamic(
+  () => import("@vercel/analytics/react").then((mod) => mod.Analytics),
+  { ssr: false }
+);
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

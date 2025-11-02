@@ -7,7 +7,9 @@ import { TopOverlayActions } from "@/components/top-overlay-actions";
 import { composeButtonDataset } from "@/datasets/compose/button";
 import { swiftuiButtonDataset } from "@/datasets/swiftui/button";
 import type { Platform } from "@/lib/device";
-import { themes, getThemeById } from "@/themes";
+import { themesMetadata, getThemeMetadataById, loadThemeComponent } from "@/themes";
+import type { ThemeDefinition } from "@/themes/types";
+import type { ThemeMetadata } from "@/themes/metadata";
 
 type ShareState = "idle" | "shared" | "copied" | "error";
 
@@ -17,17 +19,44 @@ interface ThemeStandaloneProps {
 }
 
 export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps) {
-  const theme = useMemo(() => getThemeById(themeId) ?? themes[0], [themeId]);
+  const [themeDefinition, setThemeDefinition] = useState<ThemeDefinition | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  const themeMetadata = useMemo(() => {
+    return getThemeMetadataById(themeId) ?? themesMetadata[0];
+  }, [themeId]);
+
+  // Load theme component dynamically
+  useEffect(() => {
+    let cancelled = false;
+    setIsLoading(true);
+    
+    loadThemeComponent(themeId).then((theme) => {
+      if (!cancelled) {
+        setThemeDefinition(theme);
+        setIsLoading(false);
+      }
+    }).catch((error) => {
+      if (!cancelled) {
+        console.error("Failed to load theme:", error);
+        setIsLoading(false);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [themeId]);
+
   const currentIndex = useMemo(() => {
-    const found = themes.findIndex((item) => item.id === theme.id);
+    const found = themesMetadata.findIndex((item: ThemeMetadata) => item.id === themeMetadata.id);
     return found >= 0 ? found : 0;
-  }, [theme.id]);
+  }, [themeMetadata.id]);
 
   const effectivePlatform = useMemo<Platform>(() => {
-    const supported = theme.supportedPlatforms ?? [];
-    const mobileCandidates = supported.filter((p): p is "ios" | "android" => p === "ios" || p === "android");
+    const supported = themeMetadata.supportedPlatforms ?? [];
+    const mobileCandidates = supported.filter((p: Platform): p is "ios" | "android" => p === "ios" || p === "android");
 
     if (mobileCandidates.length > 0) {
       if ((platformHint === "ios" || platformHint === "android") && mobileCandidates.includes(platformHint)) {
@@ -37,19 +66,18 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
     }
 
     return "ios";
-  }, [platformHint, theme]);
+  }, [platformHint, themeMetadata]);
 
-  const ThemeComponent = theme.component;
   const dataset = useMemo(() => {
-    if (theme.id === "swiftui") return swiftuiButtonDataset;
-    if (theme.id === "compose") return composeButtonDataset;
+    if (themeMetadata.id === "swiftui") return swiftuiButtonDataset;
+    if (themeMetadata.id === "compose") return composeButtonDataset;
     return undefined;
-  }, [theme.id]);
+  }, [themeMetadata.id]);
   const [overlayMode, setOverlayMode] = useState<"hidden" | "autoplay" | "manual">("hidden");
   const [overlayNonce, setOverlayNonce] = useState(0);
   const [shareState, setShareState] = useState<ShareState>("idle");
-  const ThemeIcon = theme.icon;
-  const themeInitial = useMemo(() => theme.label.slice(0, 1).toUpperCase(), [theme.label]);
+  const ThemeIcon = themeMetadata.icon;
+  const themeInitial = useMemo(() => themeMetadata.label.slice(0, 1).toUpperCase(), [themeMetadata.label]);
 
   useEffect(() => {
     if (!dataset) {
@@ -73,8 +101,8 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
 
   const handleShare = useCallback(async () => {
     const payload = {
-      title: `X-Windows • ${theme.label}`,
-      text: theme.description,
+      title: `X-Windows • ${themeMetadata.label}`,
+      text: themeMetadata.description,
       url: window.location.href,
     };
 
@@ -97,7 +125,7 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
     } catch {
       setShareState("error");
     }
-  }, [theme]);
+  }, [themeMetadata]);
 
   useEffect(() => {
     if (shareState === "idle") return;
@@ -114,8 +142,8 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
 
   const navigateTheme = useCallback(
     (offset: number) => {
-      const nextIndex = (currentIndex + offset + themes.length) % themes.length;
-      const target = themes[nextIndex];
+      const nextIndex = (currentIndex + offset + themesMetadata.length) % themesMetadata.length;
+      const target = themesMetadata[nextIndex];
       router.replace(`/theme/${target.id}`);
     },
     [currentIndex, router],
@@ -140,13 +168,23 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
   const showOverlay = Boolean(dataset && overlayMode !== "hidden");
   const overlayAutoPlay = overlayMode !== "hidden";
 
+  if (isLoading || !themeDefinition) {
+    return (
+      <div className="relative flex min-h-screen w-full items-center justify-center bg-slate-950 text-slate-100">
+        <div className="text-slate-400">Loading theme...</div>
+      </div>
+    );
+  }
+
+  const ThemeComponent = themeDefinition.component;
+
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center bg-slate-950 text-slate-100">
       {showOverlay && dataset && (
         <DecompilePipelineOverlay
-          key={`${theme.id}-${overlayNonce}`}
+          key={`${themeMetadata.id}-${overlayNonce}`}
           dataset={dataset}
-          themeId={theme.id === "compose" ? "compose" : "swiftui"}
+          themeId={themeMetadata.id === "compose" ? "compose" : "swiftui"}
           autoPlay={overlayAutoPlay}
           onFinish={handleOverlayResolve}
           onSkip={handleOverlayResolve}

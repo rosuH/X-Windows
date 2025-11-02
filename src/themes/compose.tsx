@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/code-block";
+import { CodeBlock } from "@/components/code-block-new";
 import type { ThemeComponentProps } from "@/themes/types";
 import type { ThemeDefinition } from "@/themes/types";
 import { AndroidHead3DIcon } from "@/lib/icons";

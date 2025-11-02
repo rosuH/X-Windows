@@ -6,10 +6,10 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import type { Platform } from "@/lib/device";
 import { platformLabel } from "@/lib/device";
-import type { ThemeDefinition } from "@/themes/types";
+import type { ThemeMetadata } from "@/themes/metadata";
 
 interface ThemeSwitcherProps {
-  themes: ThemeDefinition[];
+  themes: ThemeMetadata[];
   value: string;
   onValueChange: (value: string) => void;
   platform: Platform;
@@ -95,7 +95,7 @@ export function ThemeSwitcher({ themes, value, onValueChange, platform }: ThemeS
   const [shareStates, setShareStates] = useState<Record<string, ShareState>>({});
 
   const handleShare = useCallback(
-    async (theme: ThemeDefinition, e: React.MouseEvent) => {
+    async (theme: ThemeMetadata, e: React.MouseEvent) => {
       e.stopPropagation();
       const themeId = theme.id;
 
@@ -130,7 +130,7 @@ export function ThemeSwitcher({ themes, value, onValueChange, platform }: ThemeS
   );
 
   const handleCopy = useCallback(
-    async (theme: ThemeDefinition, e: React.MouseEvent) => {
+    async (theme: ThemeMetadata, e: React.MouseEvent) => {
       e.stopPropagation();
       const themeId = theme.id;
 

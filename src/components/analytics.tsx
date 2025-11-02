@@ -32,7 +32,7 @@ export function Analytics() {
     <Script
       src={src}
       data-website-id={websiteId}
-      strategy="afterInteractive"
+      strategy="lazyOnload"
       defer
     />
   );
