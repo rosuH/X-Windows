@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import type { LucideIcon } from "lucide-react";
+import type { FC, SVGProps } from "react";
 import type { Platform } from "@/lib/device";
 
 export type ThemeKind = "code" | "media" | "experiment";
@@ -12,6 +13,8 @@ export interface ThemeComponentProps {
 
 export type ThemeRenderer = (props: ThemeComponentProps) => ReactElement;
 
+export type IconComponent = FC<SVGProps<SVGSVGElement>>;
+
 export interface ThemeDefinition {
   id: string;
   label: string;
@@ -20,5 +23,5 @@ export interface ThemeDefinition {
   component: ThemeRenderer;
   accentColor?: string;
   supportedPlatforms?: Platform[];
-  icon?: LucideIcon;
+  icon?: LucideIcon | IconComponent;
 }

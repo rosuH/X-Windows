@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "X-Windows",
-  description: "X 风格帖子里的迷你 IDE 体验",
+  description: "Mini IDE experience in X-style posts",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="en">
       <body className="bg-slate-950 text-slate-100 font-sans antialiased">
         {children}
         <Analytics />

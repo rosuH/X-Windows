@@ -17,7 +17,7 @@ export function ThemeSwitcher({ themes, value, onValueChange, platform }: ThemeS
   return (
     <div className="flex h-full flex-col gap-4">
       <div className="rounded-2xl border border-white/10 bg-slate-950/50 p-4 text-xs uppercase tracking-wide text-slate-400">
-        当前设备：<span className="text-slate-100">{platformLabel(platform)}</span>
+        Current device: <span className="text-slate-100">{platformLabel(platform)}</span>
       </div>
       <Tabs.Root
         orientation="vertical"
@@ -54,7 +54,7 @@ export function ThemeSwitcher({ themes, value, onValueChange, platform }: ThemeS
                 <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-slate-500">
                   <span className="h-1 w-6 rounded-full opacity-70" style={{ background: accent }} />
                   <span className={clsx(isRecommended ? "text-emerald-300" : "text-slate-500")}>
-                    {isRecommended ? "推荐" : "探索"}
+                    {isRecommended ? "Recommended" : "Explore"}
                   </span>
                 </span>
               </Tabs.Trigger>

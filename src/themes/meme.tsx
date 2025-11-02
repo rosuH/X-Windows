@@ -20,7 +20,7 @@ function MemeTheme({}: ThemeComponentProps) {
 export const memeTheme: ThemeDefinition = {
   id: "meme",
   label: "Meme Surprise",
-  description: "展示趣味图片或动效，制造惊喜",
+  description: "Display fun images or animations to create surprises",
   kind: "media",
   component: MemeTheme,
   accentColor: "#F97316",

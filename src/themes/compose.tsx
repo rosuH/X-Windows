@@ -1,7 +1,7 @@
 import { CodeBlock } from "@/components/code-block";
 import type { ThemeComponentProps } from "@/themes/types";
 import type { ThemeDefinition } from "@/themes/types";
-import { Layers } from "lucide-react";
+import { AndroidHead3DIcon } from "@/lib/icons";
 
 const COMPOSE_CODE = `import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -106,30 +106,37 @@ data object Strings {
 `;
 
 function ComposeEmbedded({}: ThemeComponentProps) {
+  const debugLine = 33;
+
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0D1513] shadow-[0_30px_80px_rgba(3,15,12,0.45)]">
-      <CodeBlock code={COMPOSE_CODE} language="kotlin" variant="frameless" />
+    <div className="flex h-full flex-col overflow-hidden border border-white/10 bg-[#0D1513] shadow-[0_30px_80px_rgba(3,15,12,0.45)]">
+      <CodeBlock 
+        code={COMPOSE_CODE} 
+        language="kotlin" 
+        variant="frameless"
+        highlightLine={debugLine}
+        scrollToLine={debugLine}
+        debugStyle="android"
+      />
     </div>
   );
 }
 
 function ComposeStandalone() {
+  const debugLine = 33;
+
   return (
-    <div className="mx-auto flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-[32px] border border-[#1F2A26] bg-[#111716] shadow-[0_40px_120px_rgba(3,20,15,0.6)] lg:max-w-4xl">
-      <div className="flex flex-1 overflow-hidden">
-        <aside className="hidden w-52 flex-col border-r border-[#1C2622] bg-[#101917] px-4 py-4 text-xs text-emerald-200/70 lg:flex">
-          <div className="mb-4 text-[11px] uppercase tracking-[0.2em] text-emerald-500/70">Project</div>
-          <div className="space-y-2">
-            <div className="rounded-lg bg-[#17211F] px-2 py-2 text-emerald-100">ComposePreview.kt</div>
-            <div className="rounded-lg px-2 py-2 hover:bg-[#17211F]">Tabs.kt</div>
-            <div className="rounded-lg px-2 py-2 hover:bg-[#17211F]">Canvas.kt</div>
-            <div className="rounded-lg px-2 py-2 hover:bg-[#17211F]">Preview.kt</div>
-          </div>
-        </aside>
-        <main className="flex-1 overflow-auto bg-[#0B1211]">
-          <CodeBlock code={COMPOSE_CODE} language="kotlin" variant="frameless" />
-        </main>
-      </div>
+    <div className="mx-auto flex h-full w-full max-w-5xl flex-col overflow-hidden border border-[#1F2A26] bg-[#111716] shadow-[0_40px_120px_rgba(3,20,15,0.6)] lg:max-w-4xl">
+      <main className="flex-1 overflow-auto bg-[#0B1211]">
+        <CodeBlock 
+          code={COMPOSE_CODE} 
+          language="kotlin" 
+          variant="frameless"
+          highlightLine={debugLine}
+          scrollToLine={debugLine}
+          debugStyle="android"
+        />
+      </main>
       <footer className="border-t border-[#1C2622] bg-[#101917] px-5 py-3 text-[11px] text-emerald-200/70">
         Compose Preview • X-Windows Playground • Android Edition
       </footer>
@@ -149,10 +156,10 @@ function ComposeThemeComponent(props: ThemeComponentProps) {
 export const composeTheme: ThemeDefinition = {
   id: "compose",
   label: "Compose UI",
-  description: "为 Android 访客呈现 Jetpack Compose 编辑器质感",
+  description: "Present Jetpack Compose editor experience for Android visitors",
   kind: "code",
   component: ComposeThemeComponent,
   accentColor: "#3DDC84",
   supportedPlatforms: ["android", "desktop"],
-  icon: Layers,
+  icon: AndroidHead3DIcon,
 };

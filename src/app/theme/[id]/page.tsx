@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { ThemeStandalone } from "@/components/theme-standalone";
 import { getRequestPlatform } from "@/lib/request-platform";
-import { getThemeById } from "@/themes";
+import { isValidThemeId } from "@/themes/ids";
 
 export default async function ThemePage({
   params,
@@ -10,11 +10,10 @@ export default async function ThemePage({
 }) {
   const { id } = await params;
   const platform = await getRequestPlatform();
-  const theme = getThemeById(id);
-
-  if (!theme) {
+  
+  if (!isValidThemeId(id)) {
     notFound();
   }
 
-  return <ThemeStandalone themeId={theme.id} platformHint={platform} />;
+  return <ThemeStandalone themeId={id} platformHint={platform} />;
 }

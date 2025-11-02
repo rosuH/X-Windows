@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ThemeExperience } from "@/components/theme-experience";
 import { getRequestPlatform } from "@/lib/request-platform";
-import { getDefaultThemeForPlatform, getThemeById } from "@/themes";
+import { isValidThemeId, themeIds } from "@/themes/ids";
 
 type HomeSearchParams = Promise<{
   theme?: string;
@@ -9,7 +9,7 @@ type HomeSearchParams = Promise<{
 
 export const metadata: Metadata = {
   title: "X-Windows",
-  description: "在 X 风格帖子里打开迷你 IDE 的跨平台实验场",
+  description: "Cross-platform playground for opening mini IDE in X-style posts",
 };
 
 export default async function Home({
@@ -19,10 +19,12 @@ export default async function Home({
 }) {
   const params = await searchParams;
   const platform = await getRequestPlatform();
-  const requestedTheme = getThemeById(params?.theme);
-  const initialTheme = requestedTheme ?? getDefaultThemeForPlatform(platform);
+  // Use the first theme as default, actual component lookup happens on client side
+  const initialThemeId = (params?.theme && isValidThemeId(params.theme)) 
+    ? params.theme 
+    : themeIds[0];
 
   return (
-    <ThemeExperience initialThemeId={initialTheme.id} platform={platform} />
+    <ThemeExperience initialThemeId={initialThemeId} platform={platform} />
   );
 }

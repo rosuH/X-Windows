@@ -54,10 +54,10 @@ export function ThemeExperience({ initialThemeId, platform }: ThemeExperiencePro
             </div>
             <div className="flex flex-col items-end gap-2 text-xs text-slate-400">
               <span>
-                当前设备：<strong className="text-slate-100">{platformLabel(platform)}</strong>
+                Current device: <strong className="text-slate-100">{platformLabel(platform)}</strong>
               </span>
               <span className={isRecommended ? "text-emerald-300" : "text-slate-500"}>
-                {isRecommended ? "为你量身推荐" : "也可以播放"}
+                {isRecommended ? "Recommended for you" : "Can also play"}
               </span>
             </div>
           </div>
@@ -66,7 +66,7 @@ export function ThemeExperience({ initialThemeId, platform }: ThemeExperiencePro
               href={`/theme/${theme.id}`}
               className="rounded-full border border-white/10 bg-white/5 px-3 py-1 font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/10"
             >
-              打开独立路由 /theme/{theme.id}
+              Open standalone route /theme/{theme.id}
             </Link>
           </div>
         </div>

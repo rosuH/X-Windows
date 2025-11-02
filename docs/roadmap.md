@@ -1,65 +1,71 @@
-# X-Windows 开发路线图
+# X-Windows Development Roadmap
 
-## 里程碑
+## Product Goal Alignment
 
-### M0 · 项目奠基（第 0-1 周）
+- **Core Experience**: After users click a link in a post detail within the X iOS official app and jump to our page, their intuitive feeling should be "still in the app, but with an official hidden source code panel enabled".
+- **Interface Baseline**: All themes first serve the SwiftUI scenario, rendering real code, and creating an "official source code viewer" illusion through details like window shells, status bars, and traffic lights.
+- **Animation Expectations**: When entering the page, the post background should slightly sink and blur, with the code panel floating up; interactive controls must avoid X's embedded browser system toolbar and safe areas.
 
-- [x] 初始化 Next.js 16 + TypeScript + Tailwind 工程，配置 ESLint、Prettier、Husky。
-- [x] 搭建基础路由结构：`/` 帖子容器、`/theme/[id]` 动态路由。
-- [x] 实现主题注册中心与示例主题（SwiftUI/Compose/Meme）。
-- [x] 接入 Vercel Analytics，补充 `.env.example`、`vercel.json` 与一键部署按钮。
+## Milestones
 
-### M1 · 核心体验（第 2-3 周）
+### M0 · Project Foundation (Weeks 0-1)
 
-- [ ] 完成 SwiftUI 代码主题：EditorChrome、代码高亮、平台自适应内容。
-- [ ] 完成 Compose 代码主题：Android Studio 视觉、代码段切换。
-- [ ] 实现主题列表 UI、平台自动识别与手动切换逻辑。
-- [ ] 引入 Framer Motion，模拟 X iOS “页面下沉 + Web 面板” 动画。
+- [x] Initialize Next.js 16 + TypeScript + Tailwind project, configure ESLint, Prettier, Husky.
+- [x] Build basic routing structure: `/` post container, `/theme/[id]` dynamic routes, meeting iOS embedded browser display requirements.
+- [x] Implement theme registry and example themes (SwiftUI/Compose/Meme), providing source code viewer skeleton.
+- [x] Integrate Vercel Analytics, add `.env.example`, `vercel.json`, and one-click deployment button.
 
-### M2 · 多媒体与分享（第 4-5 周）
+### M1 · Core Experience (Weeks 2-3)
 
-- [ ] 新增 Meme、Lottie、视频主题，抽象 MediaFrame。
-- [ ] 设计分享路由（`?theme=...&platform=...`）与 OG 图生成。
-- [ ] 集成简单的主题访问统计面板。
-- [ ] 完善响应式布局，优化桌面端体验。
+- [ ] Complete SwiftUI code theme: EditorChrome viewer shell, Xcode-style highlighting, mobile font size and safe area optimization.
+- [ ] Complete Compose code theme: Android Studio visuals, code segment switching, maintaining the "official hidden feature" narrative.
+- [ ] Implement theme list UI, platform auto-detection and manual switching logic, defaulting to `theme=swiftui`.
+- [ ] Introduce Framer Motion, simulate X iOS "post sinking + source code panel floating" animation, support entry/return transitions.
 
-### M3 · 社区协作（第 6+ 周）
+### M2 · Multimedia & Sharing (Weeks 4-5)
 
-- [ ] 发布贡献指南、PR 模板、主题投稿说明。
-- [ ] 上线主题请求/投票流程，支持外部数据源（Sheet、Notion）。
-- [ ] 规划原生嵌入实验（Capacitor/Expo 或 iOS Swift 桥接）。
-- [ ] 推出官方主题精选，定期在社区分享。
+- [ ] Add Meme, Lottie, video themes, continuing the "native app source code panel" feeling in visual language.
+- [ ] Design sharing routes (`?theme=...&platform=...`) and OG image generation, ensuring copy emphasizes "viewing source code in X".
+- [ ] Integrate simple theme access statistics panel, distinguishing iOS embedded browser access data.
+- [ ] Improve responsive layout, desktop shows "experience preview mode" while still conveying mobile scenarios.
 
-## 开发任务拆解
+### M3 · Community Collaboration (Weeks 6+)
 
-- **工程初始化**：`pnpm` 管理、Git Hooks、环境变量模板。
-- **主题系统**：定义 `ThemeDefinition` 接口、注册表、渲染器。
-- **UI Shell**：构建 X 风格帖子框架、顶部状态栏、操作栏。
-- **动画层**：封装页面过渡、主题切换动画。
-- **分析与日志**：统一事件上报 API、隐私合规策略。
-- **部署脚本**：Vercel/Cloudflare 配置、GitHub Actions 自动化。
+- [ ] Publish contribution guidelines, PR templates, theme submission instructions, clarifying "X iOS embedded experience" as the acceptance criteria for all contributions.
+- [ ] Launch theme request/voting process, supporting external data sources (Sheet, Notion).
+- [ ] Plan native embedding experiments (Capacitor/Expo or iOS Swift bridging), exploring deeper app integration.
+- [ ] Launch official theme curation, regularly sharing best cases of "viewing source code in X" in the community.
 
-## 协作流程
+## Development Task Breakdown
 
-- **Issue 标签建议**
-  - `type:feature`：功能开发需求
-  - `type:bug`：缺陷反馈
-  - `type:theme`：主题投稿/迭代
-  - `good first issue`：适合新人上手的小任务
+- **Project Initialization**: `pnpm` management, Git Hooks, environment variable templates.
+- **Theme System**: Define `ThemeDefinition` interface, registry, renderer.
+- **UI Shell**: Build X-style post framework, top status bar, action bar, prioritizing X iOS embedded browser safe area adaptation.
+- **Animation Layer**: Encapsulate page transitions, theme switching animations, implement "post sinking + panel floating" effects.
+- **Analytics & Logging**: Unified event reporting API, privacy compliance strategy.
+- **Deployment Scripts**: Vercel/Cloudflare configuration, GitHub Actions automation, verify iOS embedded browser compatibility.
 
-- **模板草案**
-  - `Bug Report`：复现步骤、期望行为、截图/日志。
-  - `Feature Request`：问题动机、提议方案、备选方案。
-  - `Theme Proposal`：主题名称、目标平台、展示素材、互动设计。
+## Collaboration Process
 
-- **贡献指南**
-  - 统一在 `CONTRIBUTING.md` 中说明分支策略、代码规范、测试要求。
-  - 提供主题开发教程：创建文件、引入资源、测试与提交。
-  - 鼓励提交 Demo 截图或屏幕录制，便于审核。
+- **Issue Label Suggestions**
+  - `type:feature`: Feature development requirements
+  - `type:bug`: Bug reports
+  - `type:theme`: Theme submission/iteration
+  - `good first issue`: Small tasks suitable for newcomers
 
-## 推广行动
+- **Template Drafts**
+  - `Bug Report`: Reproduction steps, expected behavior, screenshots/logs.
+  - `Feature Request`: Problem motivation, proposed solution, alternatives.
+  - `Theme Proposal`: Theme name, target platform, display materials, interaction design.
 
-- 发布项目博客/推文介绍灵感、演示视频。
-- 设计开源社交卡片、在 README 嵌入 Star/Fork 徽章。
-- 规划 Hackathon/社区活动，邀请开发者提交主题。
+- **Contribution Guidelines**
+  - Unified explanation in `CONTRIBUTING.md` for branch strategy, code standards, testing requirements.
+  - Provide theme development tutorial: create files, import resources, test and submit.
+  - Encourage submitting demo screenshots or screen recordings for review.
+
+## Promotion Actions
+
+- Publish project blog posts/tweets introducing inspiration and demo videos.
+- Design open source social cards, embed Star/Fork badges in README.
+- Plan Hackathon/community events, invite developers to submit themes.
 

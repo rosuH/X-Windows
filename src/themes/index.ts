@@ -1,3 +1,5 @@
+"use client";
+
 import { composeTheme } from "@/themes/compose";
 import { memeTheme } from "@/themes/meme";
 import { swiftuiTheme } from "@/themes/swiftui";

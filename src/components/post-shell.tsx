@@ -19,17 +19,17 @@ export function PostShell({ sidebar, children }: PostShellProps) {
                 <span className="font-semibold text-slate-100">X-Windows</span>
                 <span>@x_windows</span>
                 <span>·</span>
-                <span>构建中</span>
+                <span>In development</span>
               </div>
               <p className="text-base leading-relaxed text-slate-200">
-                在 X 的帖子详情页里嵌入一块“迷你 IDE”，无论是 SwiftUI、Compose 还是 Meme 动画，让人划过时瞬间打开另一个世界。
+                Embed a "mini IDE" in X's post detail page. Whether it's SwiftUI, Compose, or Meme animations, it instantly opens another world when scrolled.
               </p>
               <div className="flex gap-6 text-sm text-slate-400">
                 <span>
-                  <span className="font-semibold text-slate-100">∞</span> 浏览
+                  <span className="font-semibold text-slate-100">∞</span> Views
                 </span>
                 <span>
-                  <span className="font-semibold text-slate-100">开源</span> 项目
+                  <span className="font-semibold text-slate-100">Open source</span> project
                 </span>
               </div>
             </div>

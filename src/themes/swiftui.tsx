@@ -1,7 +1,9 @@
+"use client";
+
 import { CodeBlock } from "@/components/code-block";
 import type { ThemeComponentProps } from "@/themes/types";
 import type { ThemeDefinition } from "@/themes/types";
-import { Bird } from "lucide-react";
+import { SwiftIcon } from "@/lib/icons";
 
 const SWIFTUI_CODE = `import SwiftUI
 
@@ -106,30 +108,35 @@ enum Localized {
 `;
 
 function SwiftUIEmbedded({}: ThemeComponentProps) {
+  const debugLine = 11;
+
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#111114] shadow-[0_30px_80px_rgba(5,10,25,0.45)]">
-      <CodeBlock code={SWIFTUI_CODE} language="swift" variant="frameless" />
+    <div className="flex h-full flex-col overflow-hidden border border-white/10 bg-[#111114] shadow-[0_30px_80px_rgba(5,10,25,0.45)]">
+      <CodeBlock 
+        code={SWIFTUI_CODE} 
+        language="swift" 
+        variant="frameless"
+        highlightLine={debugLine}
+        scrollToLine={debugLine}
+      />
     </div>
   );
 }
 
 function SwiftUIStandalone() {
+  const debugLine = 11;
+
   return (
-    <div className="mx-auto flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-[32px] border border-[#2A2A2E] bg-[#1C1C1E] shadow-[0_40px_120px_rgba(6,12,26,0.55)] lg:max-w-4xl">
-      <div className="flex flex-1 overflow-hidden">
-        <aside className="hidden w-52 flex-col border-r border-[#2C2C30] bg-[#1F1F23] px-4 py-4 text-xs text-slate-400 lg:flex">
-          <div className="mb-4 text-[11px] uppercase tracking-[0.2em] text-slate-500">Playground</div>
-          <div className="space-y-2">
-            <div className="rounded-lg bg-[#2A2A2E] px-2 py-2 text-slate-200">Editor.swift</div>
-            <div className="rounded-lg px-2 py-2 hover:bg-[#242428]">Tabs.swift</div>
-            <div className="rounded-lg px-2 py-2 hover:bg-[#242428]">Canvas.swift</div>
-            <div className="rounded-lg px-2 py-2 hover:bg-[#242428]">Preview.swift</div>
-          </div>
-        </aside>
-        <main className="flex-1 overflow-auto bg-[#111114]">
-          <CodeBlock code={SWIFTUI_CODE} language="swift" variant="frameless" />
-        </main>
-      </div>
+    <div className="mx-auto flex h-full w-full max-w-5xl flex-col overflow-hidden border-[#2A2A2E] bg-[#1C1C1E] shadow-[0_40px_120px_rgba(6,12,26,0.55)] lg:max-w-4xl">
+      <main className="flex-1 overflow-auto bg-[#111114]">
+        <CodeBlock 
+          code={SWIFTUI_CODE} 
+          language="swift" 
+          variant="frameless"
+          highlightLine={debugLine}
+          scrollToLine={debugLine}
+        />
+      </main>
       <footer className="border-t border-[#2C2C30] bg-[#1F1F23] px-5 py-3 text-[11px] text-slate-400">
         Live Preview • X-Windows Playground • SwiftUI Edition
       </footer>
@@ -149,10 +156,10 @@ function SwiftUIThemeComponent(props: ThemeComponentProps) {
 export const swiftuiTheme: ThemeDefinition = {
   id: "swiftui",
   label: "SwiftUI Code",
-  description: "在 X 风格页面中展示 SwiftUI 编辑器体验",
+  description: "Present SwiftUI editor experience in X-style page",
   kind: "code",
   component: SwiftUIThemeComponent,
   accentColor: "#0A84FF",
   supportedPlatforms: ["ios", "desktop"],
-  icon: Bird,
+  icon: SwiftIcon,
 };
