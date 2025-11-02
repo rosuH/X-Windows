@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import { Analytics } from "@/components/analytics";
 import {
@@ -33,12 +34,15 @@ export const metadata: Metadata = {
     title: "X-Windows",
     description: "Mini IDE experience in X-style posts. View SwiftUI and Compose source code directly in X.",
   },
-  themeColor: "#0f172a", // slate-950
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
     ],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0f172a", // slate-950
 };
 
 export default function RootLayout({
@@ -76,7 +80,9 @@ export default function RootLayout({
           }}
         />
         {children}
-        <Analytics />
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
         <VercelAnalytics />
       </body>
     </html>
