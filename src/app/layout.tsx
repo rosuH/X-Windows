@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     default: "X-Windows",
     template: "%s | X-Windows",
   },
-  description: "Mini IDE experience in X-style posts. View SwiftUI and Compose source code directly in X.",
+  description: "Open a window in X post details. View source code and interactive content directly within X.",
   alternates: {
     canonical: "/",
   },
@@ -33,12 +33,12 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "X-Windows",
     title: "X-Windows",
-    description: "Mini IDE experience in X-style posts. View SwiftUI and Compose source code directly in X.",
+    description: "Open a window in X post details. View source code and interactive content directly within X.",
   },
   twitter: {
     card: "summary_large_image",
     title: "X-Windows",
-    description: "Mini IDE experience in X-style posts. View SwiftUI and Compose source code directly in X.",
+    description: "Open a window in X post details. View source code and interactive content directly within X.",
   },
   icons: {
     icon: [
@@ -59,13 +59,13 @@ export default function RootLayout({
   const organizationJsonLd = generateOrganizationJsonLd(
     "X-Windows",
     siteUrl,
-    "Mini IDE experience in X-style posts",
+    "Open a window in X post details",
   );
 
   const websiteJsonLd = generateWebSiteJsonLd(
     "X-Windows",
     siteUrl,
-    "Mini IDE experience in X-style posts",
+    "Open a window in X post details",
   );
 
   return (

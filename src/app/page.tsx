@@ -9,7 +9,7 @@ type HomeSearchParams = Promise<{
 
 export const metadata: Metadata = {
   title: "X-Windows",
-  description: "Cross-platform playground for opening mini IDE in X-style posts",
+  description: "Open a window in X post details. View source code and interactive content directly within X.",
 };
 
 export default async function Home({

@@ -41,7 +41,7 @@ export default async function Image() {
             textAlign: "center",
           }}
         >
-          Mini IDE experience in X-style posts
+          Open a window in X post details
         </div>
       </div>
     ),
