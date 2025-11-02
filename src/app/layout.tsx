@@ -1,10 +1,44 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
+import { Analytics } from "@/components/analytics";
+import {
+  generateOrganizationJsonLd,
+  generateWebSiteJsonLd,
+} from "@/lib/seo/jsonld";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://x-windows.rosuh.me";
+
 export const metadata: Metadata = {
-  title: "X-Windows",
-  description: "Mini IDE experience in X-style posts",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "X-Windows",
+    template: "%s | X-Windows",
+  },
+  description: "Mini IDE experience in X-style posts. View SwiftUI and Compose source code directly in X.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName: "X-Windows",
+    title: "X-Windows",
+    description: "Mini IDE experience in X-style posts. View SwiftUI and Compose source code directly in X.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "X-Windows",
+    description: "Mini IDE experience in X-style posts. View SwiftUI and Compose source code directly in X.",
+  },
+  themeColor: "#0f172a", // slate-950
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -12,11 +46,38 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationJsonLd = generateOrganizationJsonLd(
+    "X-Windows",
+    siteUrl,
+    "Mini IDE experience in X-style posts",
+  );
+
+  const websiteJsonLd = generateWebSiteJsonLd(
+    "X-Windows",
+    siteUrl,
+    "Mini IDE experience in X-style posts",
+  );
+
   return (
     <html lang="en">
       <body className="bg-slate-950 text-slate-100 font-sans antialiased">
+        <Script
+          id="jsonld-organization"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        <Script
+          id="jsonld-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd),
+          }}
+        />
         {children}
         <Analytics />
+        <VercelAnalytics />
       </body>
     </html>
   );
