@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Menu } from "lucide-react";
@@ -10,27 +10,54 @@ interface CodeBlockProps {
   language: string;
   variant?: "default" | "frameless";
   highlightLine?: number;
+  highlightLines?: number[];
   breakpointInfo?: string;
   scrollToLine?: number;
   debugStyle?: "swift" | "android";
 }
 
-export function CodeBlock({ 
-  code, 
-  language, 
+const languageAliases: Record<string, string> = {
+  sil: "swift",
+  "llvm-ir": "llvm",
+  "jvm-bytecode": "java",
+  smali: "asm",
+  aarch64: "asm",
+};
+
+export function CodeBlock({
+  code,
+  language,
   variant = "default",
   highlightLine,
+  highlightLines,
   breakpointInfo,
   scrollToLine,
-  debugStyle = "swift"
+  debugStyle = "swift",
 }: CodeBlockProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLElement | null>(null);
   const [breakpointTop, setBreakpointTop] = useState<number | undefined>(undefined);
-  const [highlightLineTop, setHighlightLineTop] = useState<number | undefined>(undefined);
+
+  const resolvedLanguage = languageAliases[language] ?? language;
+  const highlightSet = useMemo(() => {
+    const set = new Set<number>();
+    if (highlightLines) {
+      highlightLines.forEach((line) => set.add(line));
+    }
+    if (highlightLine) {
+      set.add(highlightLine);
+    }
+    return set;
+  }, [highlightLine, highlightLines]);
+
+  const primaryHighlight = useMemo(() => {
+    if (highlightLine) return highlightLine;
+    if (highlightLines && highlightLines.length > 0) return highlightLines[0];
+    return undefined;
+  }, [highlightLine, highlightLines]);
 
   useEffect(() => {
-    const targetLine = scrollToLine ?? highlightLine;
+    const targetLine = scrollToLine ?? primaryHighlight;
     if (targetLine && containerRef.current) {
       const attemptScroll = (attempt: number = 0) => {
         const maxAttempts = 6;
@@ -61,11 +88,11 @@ export function CodeBlock({
       const timer = setTimeout(() => attemptScroll(), 200);
       return () => clearTimeout(timer);
     }
-  }, [scrollToLine, highlightLine, code]);
+  }, [scrollToLine, primaryHighlight, code]);
 
   // Update breakpoint position and blue graphic position
   useEffect(() => {
-    if (highlightLine && containerRef.current) {
+    if (primaryHighlight && containerRef.current) {
       let rafId: number | null = null;
       
       const updatePosition = () => {
@@ -76,7 +103,7 @@ export function CodeBlock({
         const lineElements = container.querySelectorAll('span[class*="react-syntax-highlighter-line-number"]');
         const targetLineElement = Array.from(lineElements).find((el) => {
           const text = el.textContent?.trim();
-          return text === String(highlightLine);
+          return text === String(primaryHighlight);
         });
 
         if (targetLineElement) {
@@ -85,9 +112,7 @@ export function CodeBlock({
             lineRef.current = lineContainer;
             const containerRect = container.getBoundingClientRect();
             const lineRect = lineContainer.getBoundingClientRect();
-
             const lineTop = lineRect.top - containerRect.top + container.scrollTop;
-            setHighlightLineTop(lineTop);
 
             const scrollContainer = container.parentElement?.closest('[class*="overflow-auto"], [class*="overflow-y-auto"], [class*="overflow-x-auto"], [class*="overflow"]') || container.parentElement;
             if (scrollContainer) {
@@ -164,10 +189,10 @@ export function CodeBlock({
         resizeObserver.disconnect();
       };
     }
-  }, [highlightLine]);
+  }, [primaryHighlight]);
 
   const lineProps = (lineNumber: number) => {
-    if (highlightLine === lineNumber) {
+    if (highlightSet.has(lineNumber)) {
       const classes = ["xs-debug-line"];
       classes.push(debugStyle === "android" ? "xs-debug-line--android" : "xs-debug-line--swift");
       return {
@@ -188,10 +213,10 @@ export function CodeBlock({
       minWidth: "2.75rem",
       position: "relative" as const,
       textAlign: "right" as const,
-      zIndex: highlightLine === lineNumber ? 15 : 1,
+      zIndex: highlightSet.has(lineNumber) ? 15 : 1,
     };
 
-    if (highlightLine === lineNumber) {
+    if (highlightSet.has(lineNumber)) {
       if (debugStyle === "android") {
         return {
           ...baseStyle,
@@ -286,7 +311,7 @@ export function CodeBlock({
       `}</style>
       <div className="relative" ref={containerRef}>
       <SyntaxHighlighter
-        language={language}
+        language={resolvedLanguage}
         style={oneDark}
         showLineNumbers
         wrapLines
@@ -307,13 +332,13 @@ export function CodeBlock({
       >
         {code.trim()}
       </SyntaxHighlighter>
-      {highlightLine && breakpointInfo && (
+      {primaryHighlight && breakpointInfo && (
         <div
           className="absolute right-4 flex items-center gap-2 text-xs font-medium pointer-events-none z-10"
           style={{
             top: breakpointTop !== undefined 
               ? `${breakpointTop}px`
-              : `calc(${padding}rem + ${(highlightLine - 1) * lineHeightPx}rem)`,
+              : `calc(${padding}rem + ${(primaryHighlight - 1) * lineHeightPx}rem)`,
             color: "#5cb85c",
             lineHeight: `${lineHeightPx}rem`,
             alignItems: "center",

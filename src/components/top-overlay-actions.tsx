@@ -13,6 +13,8 @@ interface TopOverlayActionsProps {
   label?: string;
   themeIcon?: LucideIcon | IconComponent;
   themeInitial?: string;
+  onDecompile?: () => void;
+  decompileLabel?: string;
 }
 
 export function TopOverlayActions({
@@ -23,6 +25,8 @@ export function TopOverlayActions({
   label,
   themeIcon: ThemeIcon,
   themeInitial,
+  onDecompile,
+  decompileLabel,
 }: TopOverlayActionsProps) {
   const { hidden } = useAutoHideOnScroll(10);
 
@@ -58,6 +62,16 @@ export function TopOverlayActions({
       <div className="flex h-[clamp(36px,4.5vw,40px)] w-[clamp(36px,4.5vw,40px)] items-center justify-center rounded-full border border-white/10 bg-white/5 text-sm font-semibold uppercase text-slate-100">
         {ThemeIcon ? <ThemeIcon size={18} strokeWidth={1.8} aria-hidden /> : themeInitial}
       </div>
+      {onDecompile && (
+        <button
+          type="button"
+          onClick={onDecompile}
+          className="flex h-[clamp(36px,4.5vw,40px)] w-[clamp(36px,4.5vw,40px)] items-center justify-center rounded-full border border-emerald-400/25 bg-emerald-500/10 text-emerald-200 transition hover:border-emerald-300/60 hover:bg-emerald-400/15"
+          aria-label={decompileLabel ?? "Replay decompile pipeline"}
+        >
+          <PulseIcon />
+        </button>
+      )}
       <button
         type="button"
         onClick={onShare}
@@ -87,6 +101,27 @@ function ArrowUpIcon() {
         d="M9 14.25V3.75M9 3.75L4.5 8.25M9 3.75L13.5 8.25"
         stroke="currentColor"
         strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function PulseIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path
+        d="M1.5 8h2.4l1.3-3.6 2.6 7.2 1.7-4.4 1.1 2.8h3.9"
+        stroke="currentColor"
+        strokeWidth="1.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

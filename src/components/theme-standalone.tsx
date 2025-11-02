@@ -2,9 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { DecompilePipelineOverlay } from "@/components/decompile/decompile-pipeline-overlay";
+import { TopOverlayActions } from "@/components/top-overlay-actions";
+import { composeButtonDataset } from "@/datasets/compose/button";
+import { swiftuiButtonDataset } from "@/datasets/swiftui/button";
 import type { Platform } from "@/lib/device";
 import { themes, getThemeById } from "@/themes";
-import { TopOverlayActions } from "@/components/top-overlay-actions";
 
 type ShareState = "idle" | "shared" | "copied" | "error";
 
@@ -37,9 +40,36 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
   }, [platformHint, theme]);
 
   const ThemeComponent = theme.component;
+  const dataset = useMemo(() => {
+    if (theme.id === "swiftui") return swiftuiButtonDataset;
+    if (theme.id === "compose") return composeButtonDataset;
+    return undefined;
+  }, [theme.id]);
+  const [overlayMode, setOverlayMode] = useState<"hidden" | "autoplay" | "manual">("hidden");
+  const [overlayNonce, setOverlayNonce] = useState(0);
   const [shareState, setShareState] = useState<ShareState>("idle");
   const ThemeIcon = theme.icon;
   const themeInitial = useMemo(() => theme.label.slice(0, 1).toUpperCase(), [theme.label]);
+
+  useEffect(() => {
+    if (!dataset) {
+      setOverlayMode("hidden");
+      return;
+    }
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    // Always autoplay on first load
+    setOverlayMode((mode) => {
+      if (mode !== "autoplay") {
+        setOverlayNonce((nonce) => nonce + 1);
+        return "autoplay";
+      }
+      return mode;
+    });
+  }, [dataset]);
 
   const handleShare = useCallback(async () => {
     const payload = {
@@ -91,8 +121,33 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
     [currentIndex, router],
   );
 
+  const handleOverlayResolve = useCallback(() => {
+    setOverlayMode("hidden");
+  }, []);
+
+  const triggerOverlay = useCallback(() => {
+    if (!dataset) return;
+    setOverlayMode(() => {
+      setOverlayNonce((nonce) => nonce + 1);
+      return "manual";
+    });
+  }, [dataset]);
+
+  const showOverlay = Boolean(dataset && overlayMode !== "hidden");
+  const overlayAutoPlay = overlayMode !== "hidden";
+
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center bg-slate-950 text-slate-100">
+      {showOverlay && dataset && (
+        <DecompilePipelineOverlay
+          key={`${theme.id}-${overlayNonce}`}
+          dataset={dataset}
+          themeId={theme.id === "compose" ? "compose" : "swiftui"}
+          autoPlay={overlayAutoPlay}
+          onFinish={handleOverlayResolve}
+          onSkip={handleOverlayResolve}
+        />
+      )}
       <div className="w-full max-w-5xl pb-32 sm:px-4 lg:max-w-4xl xl:max-w-5xl">
         <ThemeComponent platform={effectivePlatform} mode="standalone" />
       </div>
@@ -105,6 +160,8 @@ export function ThemeStandalone({ themeId, platformHint }: ThemeStandaloneProps)
         githubUrl="https://github.com/rosuH/X-Windows"
         themeIcon={ThemeIcon}
         themeInitial={themeInitial}
+        onDecompile={dataset ? triggerOverlay : undefined}
+        decompileLabel="Replay decompile pipeline"
       />
     </div>
   );
