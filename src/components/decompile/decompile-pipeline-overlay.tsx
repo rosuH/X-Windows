@@ -249,15 +249,19 @@ export function DecompilePipelineOverlay({
   return (
     <div
       className={clsx(
-        "fixed inset-0 flex flex-col text-white transition-all",
+        "fixed inset-0 flex min-h-[100dvh] flex-col text-white transition-all",
         isExiting ? "opacity-0 scale-95" : "opacity-100 scale-100"
       )}
       style={{
-        background: "radial-gradient(circle at top, rgba(7,17,45,0.98), rgba(2,6,23,0.99))",
+        background: "radial-gradient(circle at top, rgba(8,16,32,1) 0%, rgba(2,6,23,1) 88%)",
+        backgroundColor: "#020617",
         transitionDuration: prefersReducedMotion ? "150ms" : exitCommandPrinted ? "400ms" : "350ms",
         transitionTimingFunction: exitCommandPrinted ? "cubic-bezier(0.4, 0.0, 0.2, 1)" : "ease-out",
         transformOrigin: "center center",
         zIndex: 80,
+        height: "100dvh",
+        minHeight: "100vh",
+        overflow: "hidden",
       }}
       role="dialog"
       aria-modal="true"
