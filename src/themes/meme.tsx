@@ -16,10 +16,17 @@ function MemeTheme({}: ThemeComponentProps) {
     return themeParam === "meme" || pathname.includes("/theme/meme");
   }, []);
 
+  // Detect language: use Chinese version if language starts with 'zh'
+  const imageSrc = useMemo(() => {
+    if (typeof window === "undefined") return "/meme_tom.webp";
+    const lang = navigator.language || navigator.languages?.[0] || "en";
+    return lang.startsWith("zh") ? "/meme_tom_zh.webp" : "/meme_tom.webp";
+  }, []);
+
   return (
     <div className="relative flex h-full min-h-[320px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-black">
       <Image
-        src="/meme_tom.png"
+        src={imageSrc}
         alt="Meme tom"
         fill
         className="object-contain"
